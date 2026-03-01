@@ -133,7 +133,7 @@ const CategoriesPage = () => {
   )
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'grey.100' }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <NavBar />
 
       <Box sx={{ maxWidth: 600, mx: 'auto', px: 2, py: 3 }}>
