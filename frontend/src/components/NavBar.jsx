@@ -27,6 +27,7 @@ import { useThemeMode } from '../context/ThemeContext'
 
 const NAV_ITEMS = [
   { label: 'Home', path: '/' },
+  { label: 'Transactions', path: '/transactions' },
   { label: 'Categories', path: '/categories' },
 ]
 

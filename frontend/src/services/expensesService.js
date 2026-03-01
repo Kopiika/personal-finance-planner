@@ -10,4 +10,13 @@ const create = async (expense) => {
   return data
 }
 
-export default { getAll, create }
+const update = async (id, data) => {
+  const { data: res } = await api.put(`/expenses/${id}`, data)
+  return res
+}
+
+const remove = async (id) => {
+  await api.delete(`/expenses/${id}`)
+}
+
+export default { getAll, create, update, remove }

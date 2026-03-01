@@ -7,7 +7,7 @@ const expenseSchema = new mongoose.Schema({
 		minlength: 2,
 		validate: {
       validator: function(v) {
-			return /^[A-Za-z0-9_\s]+$/.test(v) // only letters, spaces, numbers, underlines are allowed	
+        return /^[A-Za-z0-9\s&()\-_.]+$/.test(v); // only letters, spaces, numbers, underlines, brackets, hyphens, periods, underscores are allowed
       },
       message: props => `${props.value} contains invalid characters. Only letters spaces, numbers, underlines are allowed!`
     }		
