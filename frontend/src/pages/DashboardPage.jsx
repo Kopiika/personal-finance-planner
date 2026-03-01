@@ -22,6 +22,8 @@ import SummaryCard from '../components/SummaryCard'
 import CategoryRow from '../components/CategoryRow'
 import AddCategoryDialog from '../components/AddCategoryDialog'
 import AddTransactionDialog from '../components/AddTransactionDialog'
+import ExpensePieChart from '../components/charts/ExpensePieChart'
+import MonthlyBarChart from '../components/charts/MonthlyBarChart'
 
 const thisMonth = (items) => {
   const now = dayjs()
@@ -74,7 +76,7 @@ const DashboardPage = () => {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <NavBar />
 
-      <Box sx={{ maxWidth: 600, mx: 'auto', px: 2, py: 3 }}>
+      <Box sx={{ maxWidth: 900, mx: 'auto', px: 2, py: 3 }}>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
           {dayjs().format('MMMM YYYY')}
         </Typography>
@@ -99,6 +101,36 @@ const DashboardPage = () => {
             color={balance >= 0 ? '#1565c0' : '#b71c1c'}
             icon={<AccountBalanceIcon fontSize="small" />}
           />
+        </Box>
+
+        {/* Charts */}
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            mb: 3,
+            flexDirection: { xs: 'column', md: 'row' },
+          }}
+        >
+          <Paper elevation={1} sx={{ flex: 1, borderRadius: 3, p: 2, minWidth: 0 }}>
+            {isLoading ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 240 }}>
+                <CircularProgress size={28} />
+              </Box>
+            ) : (
+              <ExpensePieChart expenses={monthExpenses} />
+            )}
+          </Paper>
+
+          <Paper elevation={1} sx={{ flex: 1, borderRadius: 3, p: 2, minWidth: 0 }}>
+            {isLoading ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 240 }}>
+                <CircularProgress size={28} />
+              </Box>
+            ) : (
+              <MonthlyBarChart expenses={expenses} incomes={incomes} />
+            )}
+          </Paper>
         </Box>
 
         {/* Category list */}
@@ -134,7 +166,6 @@ const DashboardPage = () => {
 
         {/* Action buttons */}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-          
           <Button
             variant="contained"
             startIcon={<AddIcon />}
