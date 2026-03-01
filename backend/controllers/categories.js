@@ -57,6 +57,7 @@ categoriesRouter.post('/', middleware.userExtractor, async (request, response, n
 
 		const category = new Category({
 			name: body.name,
+			type: body.type,
 			color: body.color,
 			user: user._id,
 			default: false

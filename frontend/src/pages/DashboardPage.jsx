@@ -2,15 +2,9 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import {
   Box,
-  AppBar,
-  Toolbar,
   Typography,
-  Avatar,
-  IconButton,
-  Menu,
-  MenuItem,
-  Divider,
   Button,
+  Divider,
   CircularProgress,
   Paper,
 } from '@mui/material'
@@ -20,10 +14,10 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import AddIcon from '@mui/icons-material/Add'
 import dayjs from 'dayjs'
 
-import useAuth from '../hooks/useAuth'
 import categoriesService from '../services/categoriesService'
 import expensesService from '../services/expensesService'
 import incomesService from '../services/incomesService'
+import NavBar from '../components/NavBar'
 import SummaryCard from '../components/SummaryCard'
 import CategoryRow from '../components/CategoryRow'
 import AddCategoryDialog from '../components/AddCategoryDialog'
@@ -38,8 +32,6 @@ const thisMonth = (items) => {
 }
 
 const DashboardPage = () => {
-  const { user, logout } = useAuth()
-  const [anchorEl, setAnchorEl] = useState(null)
   const [addCatOpen, setAddCatOpen] = useState(false)
   const [addTxOpen, setAddTxOpen] = useState(false)
 
@@ -67,7 +59,6 @@ const DashboardPage = () => {
   const totalIncome = monthIncomes.reduce((sum, i) => sum + i.amount, 0)
   const balance = totalIncome - totalExpenses
 
-  // Build per-category totals
   const categoryTotals = categories.map((cat) => {
     const catExpenses = monthExpenses
       .filter((e) => e.category?.id === cat.id)
@@ -79,44 +70,11 @@ const DashboardPage = () => {
     return { ...cat, amount }
   }).filter((cat) => cat.amount > 0)
 
-  const initials = user?.name
-    ? user.name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
-    : user?.username?.[0]?.toUpperCase() || '?'
-
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'grey.100' }}>
-      {/* Top Bar */}
-      <AppBar position="sticky" elevation={1} sx={{ bgcolor: 'white', color: 'text.primary' }}>
-        <Toolbar>
-          <Typography variant="h6" fontWeight={700} sx={{ flex: 1 }}>
-            My Finance Planner
-          </Typography>
-          <IconButton onClick={(e) => setAnchorEl(e.currentTarget)} sx={{ p: 0 }}>
-            <Avatar sx={{ bgcolor: 'primary.main', width: 36, height: 36, fontSize: 14 }}>
-              {initials}
-            </Avatar>
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => setAnchorEl(null)}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          >
-            <MenuItem disabled>
-              <Box>
-                <Typography variant="body2" fontWeight={600}>{user?.name}</Typography>
-                <Typography variant="caption" color="text.secondary">@{user?.username}</Typography>
-              </Box>
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={logout}>Sign out</MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
+      <NavBar />
 
       <Box sx={{ maxWidth: 600, mx: 'auto', px: 2, py: 3 }}>
-        {/* Month label */}
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
           {dayjs().format('MMMM YYYY')}
         </Typography>
@@ -168,9 +126,7 @@ const DashboardPage = () => {
                   amount={cat.amount}
                   type={cat.type}
                 />
-                {idx < categoryTotals.length - 1 && (
-                  <Divider sx={{ mx: 2 }} />
-                )}
+                {idx < categoryTotals.length - 1 && <Divider sx={{ mx: 2 }} />}
               </Box>
             ))
           )}
@@ -178,16 +134,7 @@ const DashboardPage = () => {
 
         {/* Action buttons */}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-          <Button
-            variant="outlined"
-            startIcon={<AddIcon />}
-            fullWidth
-            size="large"
-            sx={{ borderRadius: 2 }}
-            onClick={() => setAddCatOpen(true)}
-          >
-            Add category
-          </Button>
+          
           <Button
             variant="contained"
             startIcon={<AddIcon />}

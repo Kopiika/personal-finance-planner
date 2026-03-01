@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
+import CategoriesPage from './pages/CategoriesPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 const router = createBrowserRouter([
@@ -13,6 +14,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <DashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/categories',
+    element: (
+      <ProtectedRoute>
+        <CategoriesPage />
       </ProtectedRoute>
     ),
   },
