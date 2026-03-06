@@ -191,6 +191,48 @@ Category `type` must be `"income"` or `"expense"`.
 
 ---
 
+## Testing
+
+The backend uses Node.js's built-in test runner (`node:test`) with [Supertest](https://github.com/ladjs/supertest) for HTTP assertions. Tests run against a separate test database defined by `TEST_MONGODB_URI` in `backend/.env`.
+
+### Run all tests
+
+```bash
+cd backend
+npm test
+```
+
+### Run a single test file
+
+```bash
+cd backend
+NODE_ENV=test node --test tests/expenses_api.test.js
+```
+
+### Test files
+
+| File | What it covers |
+|---|---|
+| `tests/users_api.test.js` | User registration, duplicate username |
+| `tests/expenses_api.test.js` | Full CRUD for expenses, auth, validation |
+| `tests/incomes_api.test.js` | Full CRUD for incomes, auth, validation |
+| `tests/categories_api.test.js` | Full CRUD for categories, default category protection |
+
+### What is tested
+
+Each API test file covers:
+- Successful CRUD operations
+- Auth enforcement — `401` when no token is provided
+- User isolation — users can only access their own data
+- Validation — `400` for missing required fields, short titles, invalid types/colors
+- Ownership checks — `401` when operating on another user's resource
+- Default category protection — default categories cannot be edited or deleted
+- `404` for non-existing IDs, `400` for malformed IDs
+
+> Tests run sequentially (`--test-concurrency=1`) to avoid race conditions on the shared test database.
+
+---
+
 ## Frontend routes
 
 | Path | Page | Access |
