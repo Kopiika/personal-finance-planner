@@ -73,16 +73,26 @@ const DashboardPage = () => {
   }).filter((cat) => cat.amount > 0)
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+    <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <NavBar />
 
-      <Box sx={{ maxWidth: 900, mx: 'auto', px: 2, py: 3 }}>
+      <Box sx={{ maxWidth: 900, mx: "auto", px: 2, py: 3 }}>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
-          {dayjs().format('MMMM YYYY')}
+          {dayjs().format("MMMM YYYY")}
         </Typography>
 
         {/* Summary Cards */}
-        <Box sx={{ display: 'flex', gap: 1.5, mb: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1.5,
+            mb: 3,
+            flexDirection: {
+              xs: "column", // <600px
+              sm: "row", // ≥600px
+            },
+          }}
+        >
           <SummaryCard
             label="Income"
             amount={totalIncome}
@@ -98,7 +108,7 @@ const DashboardPage = () => {
           <SummaryCard
             label="Balance"
             amount={balance}
-            color={balance >= 0 ? '#1565c0' : '#b71c1c'}
+            color={balance >= 0 ? "#1565c0" : "#b71c1c"}
             icon={<AccountBalanceIcon fontSize="small" />}
           />
         </Box>
@@ -106,15 +116,25 @@ const DashboardPage = () => {
         {/* Charts */}
         <Box
           sx={{
-            display: 'flex',
+            display: "flex",
             gap: 2,
             mb: 3,
-            flexDirection: { xs: 'column', md: 'row' },
+            flexDirection: { xs: "column", md: "row" },
           }}
         >
-          <Paper elevation={1} sx={{ flex: 1, borderRadius: 3, p: 2, minWidth: 0 }}>
+          <Paper
+            elevation={1}
+            sx={{ flex: 1, borderRadius: 3, p: 2, minWidth: 0 }}
+          >
             {isLoading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 240 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: 240,
+                }}
+              >
                 <CircularProgress size={28} />
               </Box>
             ) : (
@@ -122,9 +142,19 @@ const DashboardPage = () => {
             )}
           </Paper>
 
-          <Paper elevation={1} sx={{ flex: 1, borderRadius: 3, p: 2, minWidth: 0 }}>
+          <Paper
+            elevation={1}
+            sx={{ flex: 1, borderRadius: 3, p: 2, minWidth: 0 }}
+          >
             {isLoading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 240 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: 240,
+                }}
+              >
                 <CircularProgress size={28} />
               </Box>
             ) : (
@@ -133,18 +163,35 @@ const DashboardPage = () => {
           </Paper>
         </Box>
 
+        {/* Action buttons */}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5, mb: 3 }}>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            fullWidth
+            size="large"
+            sx={{ borderRadius: 2 }}
+            onClick={() => setAddTxOpen(true)}
+          >
+            Add transaction
+          </Button>
+        </Box>
+
         {/* Category list */}
         <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 1 }}>
           Categories this month
         </Typography>
 
-        <Paper sx={{ borderRadius: 3, mb: 2, overflow: 'hidden' }} elevation={1}>
+        <Paper
+          sx={{ borderRadius: 3, mb: 2, overflow: "hidden" }}
+          elevation={1}
+        >
           {isLoading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+            <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
               <CircularProgress size={32} />
             </Box>
           ) : categoryTotals.length === 0 ? (
-            <Box sx={{ py: 4, textAlign: 'center' }}>
+            <Box sx={{ py: 4, textAlign: "center" }}>
               <Typography variant="body2" color="text.secondary">
                 No transactions this month yet
               </Typography>
@@ -163,26 +210,18 @@ const DashboardPage = () => {
             ))
           )}
         </Paper>
-
-        {/* Action buttons */}
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            fullWidth
-            size="large"
-            sx={{ borderRadius: 2 }}
-            onClick={() => setAddTxOpen(true)}
-          >
-            Add transaction
-          </Button>
-        </Box>
       </Box>
 
-      <AddCategoryDialog open={addCatOpen} onClose={() => setAddCatOpen(false)} />
-      <AddTransactionDialog open={addTxOpen} onClose={() => setAddTxOpen(false)} />
+      <AddCategoryDialog
+        open={addCatOpen}
+        onClose={() => setAddCatOpen(false)}
+      />
+      <AddTransactionDialog
+        open={addTxOpen}
+        onClose={() => setAddTxOpen(false)}
+      />
     </Box>
-  )
+  );
 }
 
 export default DashboardPage

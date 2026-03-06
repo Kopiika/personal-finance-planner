@@ -26,10 +26,12 @@ import {
 } from '@mui/material'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import NavBar from '../components/NavBar'
 import EditTransactionDialog from '../components/EditTransactionDialog'
+import AddTransactionDialog from '../components/AddTransactionDialog'
 import expensesService from '../services/expensesService'
 import incomesService from '../services/incomesService'
 import categoriesService from '../services/categoriesService'
@@ -47,6 +49,7 @@ const TransactionsPage = () => {
   const [maxAmount, setMaxAmount] = useState('')
 
   // Dialogs
+  const [addTxOpen, setAddTxOpen] = useState(false)
   const [editTarget, setEditTarget] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
 
@@ -131,8 +134,9 @@ const TransactionsPage = () => {
 
       <Box sx={{ maxWidth: 900, mx: 'auto', px: 2, py: 3 }}>
 
-        {/* Period navigator */}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 3 }}>
+        {/* Period navigator + Add button */}
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+          <Box sx={{ width: 120 }} />  {/* spacer to centre the nav */}
           <IconButton onClick={() => setPeriod((p) => p.subtract(1, 'month'))}>
             <ChevronLeftIcon />
           </IconButton>
@@ -145,6 +149,16 @@ const TransactionsPage = () => {
           >
             <ChevronRightIcon />
           </IconButton>
+          <Box sx={{ width: 120, display: 'flex', justifyContent: 'flex-end' }}>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={() => setAddTxOpen(true)}
+              sx={{ borderRadius: 2 }}
+            >
+              Add
+            </Button>
+          </Box>
         </Box>
 
         {/* Filters */}
@@ -375,6 +389,8 @@ const TransactionsPage = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <AddTransactionDialog open={addTxOpen} onClose={() => setAddTxOpen(false)} />
     </Box>
   )
 }

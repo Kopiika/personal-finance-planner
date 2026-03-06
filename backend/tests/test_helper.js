@@ -1,47 +1,31 @@
-const Blog = require('../models/blog')
+const Expense = require('../models/expense')
+const Income = require('../models/income')
+const Category = require('../models/category')
 const User = require('../models/user')
-
-const initialBlogs = [
-  {
-	 title: 'First test blog',
-	 author: 'Tester One',
-	 url: 'http://example.com/test1',
-	 likes: 3,
-  },
-  {
-	 title: 'Second test blog',
-	 author: 'Tester Two',
-	 url: 'http://example.com/test2',
-	 likes: 7,
-  },
-]
-
-const nonExistingId = async () => {
-  const blog = new Blog({ 
-	 title: 'Temporary',
-    author: 'Temp Author',
-    url: 'http://example.com/temp',
-	 likes: 0 
-})
-  await blog.save()
-  await blog.deleteOne()
-
-  return blog._id.toString()
-}
-
-const blogsInDb = async () => {
-  const blogs = await Blog.find({})
-  return blogs.map(blog => blog.toJSON())
-}
 
 const usersInDb = async () => {
   const users = await User.find({})
   return users.map(u => u.toJSON())
 }
 
+const expensesInDb = async () => {
+  const expenses = await Expense.find({})
+  return expenses.map(e => e.toJSON())
+}
+
+const incomesInDb = async () => {
+  const incomes = await Income.find({})
+  return incomes.map(i => i.toJSON())
+}
+
+const categoriesInDb = async () => {
+  const categories = await Category.find({})
+  return categories.map(c => c.toJSON())
+}
+
 module.exports = {
-  initialBlogs,
-  nonExistingId,
-  blogsInDb,
   usersInDb,
+  expensesInDb,
+  incomesInDb,
+  categoriesInDb,
 }

@@ -14,7 +14,11 @@ describe('when there is initially one user in db', () => {
     await User.deleteMany({})
 
     const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root', passwordHash })
+    const user = new User({
+      username: "root",
+      name: "Root User",
+      passwordHash,
+    });
 
     await user.save()
   })
@@ -73,7 +77,7 @@ describe('when there is initially one user in db', () => {
 	  .expect('Content-Type', /application\/json/)
 
 	const usersAtEnd = await helper.usersInDb()
-	assert(result.body.error.includes('expected `username` to be unique'))
+	assert(result.body.error.includes('username must be unique'))
 
 	assert.strictEqual(usersAtEnd.length, usersAtStart.length)
  })
