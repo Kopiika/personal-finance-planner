@@ -41,9 +41,9 @@ if (process.env.NODE_ENV === 'test') {
 
 app.use('/api', middleware.unknownEndpoint)
 
-app.get('*', (request, response) => {
-  response.sendFile(path.join(__dirname, 'dist', 'index.html'))
-})
+app.get("/{*path}", (request, response) => {
+  response.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 app.use(middleware.errorHandler)
 
