@@ -9,4 +9,8 @@ export default defineConfig({
       '/api': 'http://localhost:3003',
     },
   },
+  build: {
+    outDir: '../backend/dist',
+    emptyOutDir: true,
+  },
 })
