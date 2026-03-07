@@ -148,6 +148,7 @@ MONGODB_URI=mongodb://localhost:27017/finance-planner
 TEST_MONGODB_URI=mongodb://localhost:27017/finance-planner-test
 PORT=3003
 SECRET=your_jwt_secret_here
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
 Start the backend:
