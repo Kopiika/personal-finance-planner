@@ -2,6 +2,20 @@
 
 A fullstack personal finance tracking application. Track income and expenses by category, visualise spending trends and manage your budget month by month.
 
+![Dashboard](docs/screenshots/dashboard.png)
+
+![Dashboard](docs/screenshots/transactions.png)
+
+## Live demo
+
+🔗 [https://my-finance-planner.onrender.com/](https://my-finance-planner.onrender.com/)
+
+**Test account**
+```bash
+Login: testuser
+Password: testpass123
+```
+---
 ## Tech stack
 
 | Layer | Technology |
@@ -28,6 +42,20 @@ A fullstack personal finance tracking application. Track income and expenses by 
 - **Voice input** — dictate a transaction in plain English; the browser's Web Speech API captures speech and Gemini AI extracts the title, amount, type, and date automatically
 - **Dark / Light mode** — toggle in the nav bar, preference saved to `localStorage`
 - **Responsive** — desktop nav bar with inline links; mobile hamburger drawer
+
+---
+
+## About this project
+
+Built as a self-directed personal project to practice full-stack development end-to-end — from database schema design to deployed UI. The goal was to go beyond tutorial scope: real auth, real test coverage, and a feature (voice input) that required integrating an external AI API.
+
+---
+
+## Architecture decisions
+
+**MongoDB over PostgreSQL** — the data model for this app is document-oriented by nature: each transaction and category belongs to a single user and is rarely queried relationally across users. MongoDB fit naturally without requiring joins, and Mongoose kept the schema validation straightforward. For a future version with complex reporting or multi-user analytics, a relational DB would be worth reconsidering.
+
+**JWT in localStorage over httpOnly cookies** — a deliberate tradeoff. LocalStorage is vulnerable to XSS attacks, while httpOnly cookies protect against that but introduce CSRF complexity. For this project scope (no sensitive financial data, single-user auth), the simpler approach was chosen consciously. In a production app handling real user finances, httpOnly cookies with CSRF tokens would be the right call.
 
 ---
 
