@@ -25,6 +25,7 @@ A fullstack personal finance tracking application. Track income and expenses by 
 - **Dashboard** — monthly summary cards (Income, Expenses, Balance), expense breakdown pie chart, 6-month income vs expenses bar chart, category totals list
 - **Transactions** — table view with month navigation, filter by type / category / amount range, inline edit and delete
 - **Categories** — create, edit (name + colour) and delete custom categories; default system categories are read-only
+- **Voice input** — dictate a transaction in plain English; the browser's Web Speech API captures speech and Gemini AI extracts the title, amount, type, and date automatically
 - **Dark / Light mode** — toggle in the nav bar, preference saved to `localStorage`
 - **Responsive** — desktop nav bar with inline links; mobile hamburger drawer
 
@@ -254,3 +255,27 @@ Each API test file covers:
 | `TEST_MONGODB_URI` | MongoDB connection string for tests |
 | `PORT` | Port the Express server listens on (default `3003`) |
 | `SECRET` | Secret key used to sign JWT tokens |
+| `GEMINI_API_KEY` | Google Gemini API key for voice transaction parsing |
+
+---
+
+## Voice input
+
+The voice input feature lets users add a transaction by speaking instead of typing.
+
+**How it works:**
+
+1. The user clicks the microphone button on the Add Transaction page.
+2. The browser's built-in **Web Speech API** (`SpeechRecognition`) transcribes the speech to text.
+3. The transcript is sent to `POST /api/voice/parse` on the backend.
+4. The backend calls **Google Gemini 2.5 Flash** with a structured prompt, which extracts `title`, `amount`, `type` (`income` / `expense`), and `date` from the natural-language sentence.
+5. The parsed fields are returned as JSON and pre-fill the transaction form, ready for review and submission.
+
+**Example phrases:**
+- *"Spent 45 euros on groceries yesterday"*
+- *"Got paid 2000 for freelance work on March 1st"*
+- *"Coffee 3.50 this morning"*
+
+**Browser support:** requires a browser that supports the Web Speech API (Chrome / Edge recommended). The microphone button is hidden automatically when the API is unavailable.
+
+**Setup:** add `GEMINI_API_KEY` to `backend/.env` (get a free key at [Google AI Studio](https://aistudio.google.com/)).
