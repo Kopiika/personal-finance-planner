@@ -9,6 +9,7 @@ const incomesRouter = require('./controllers/incomes')
 const categoriesRouter = require('./controllers/categories')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const voiceRouter = require("./routes/voice");
 
 const app = express()
 
@@ -33,6 +34,8 @@ app.use('/api/incomes', incomesRouter)
 app.use('/api/categories', categoriesRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+
+app.use("/api/voice", voiceRouter);
 
 if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing')

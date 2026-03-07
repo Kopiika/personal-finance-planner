@@ -14,6 +14,7 @@ import expensesService from '../services/expensesService'
 import incomesService from '../services/incomesService'
 import categoriesService from '../services/categoriesService'
 import dayjs from 'dayjs'
+import VoiceInputButton from "./VoiceInputButton";
 
 const defaultForm = {
   title: '',
@@ -82,11 +83,27 @@ const AddTransactionDialog = ({ open, onClose }) => {
     onClose()
   }
 
+  const handleVoiceResult = ({ title, amount, type, date }) => {
+    setForm((prev) => ({
+      ...prev,
+      title: title || "",
+      amount: amount || "",
+      type: type || "expense",
+      date: date || dayjs().format("YYYY-MM-DD"),
+      category: "", 
+    }));
+  };
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
-      <DialogTitle sx={{ fontWeight: 700 }}>Add Transaction</DialogTitle>
+      <DialogTitle sx={{ fontWeight: 700 }}>
+        Add Transaction
+        <VoiceInputButton onResult={handleVoiceResult} />
+      </DialogTitle>
       <form onSubmit={handleSubmit}>
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 1 }}>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 1 }}
+        >
           {error && <Alert severity="error">{error}</Alert>}
           <TextField
             select
@@ -117,7 +134,7 @@ const AddTransactionDialog = ({ open, onClose }) => {
             onChange={handleChange}
             required
             fullWidth
-            inputProps={{ min: 0, step: '0.01' }}
+            inputProps={{ min: 0, step: "0.01" }}
           />
           <TextField
             label="Date"
@@ -151,12 +168,12 @@ const AddTransactionDialog = ({ open, onClose }) => {
             variant="contained"
             disabled={mutation.isPending}
           >
-            {mutation.isPending ? 'Saving…' : 'Add'}
+            {mutation.isPending ? "Saving…" : "Add"}
           </Button>
         </DialogActions>
       </form>
     </Dialog>
-  )
+  );
 }
 
 export default AddTransactionDialog
